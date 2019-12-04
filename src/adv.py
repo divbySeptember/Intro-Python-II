@@ -1,4 +1,6 @@
 from room import Room
+from player import Player
+# nimport time
 
 # Declare all the rooms
 
@@ -33,19 +35,72 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-#
+# Declare a Item
+
+item = {"fork", "Just in case."}
+current_room = room['foyer']
+
+
+
+
 # Main
 #
+#
+# Create a player object
 
-# Make a new player object that is currently in the 'outside' room.
 
-# Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
+quit = False
+
+player = Player("", room['foyer'])
+
+
+
+
+while quit is False:
+    # intro()
+    print("you are in a", player.current_room)
+    time.sleep(2)
+    print("where will you go?")
+    time.sleep(2)
+    command = input(f"\n(N)orth\n(E)ast\n(S)outh\n(W)est\n(I)nspect area\n(Q)uit while I'm healthy\n\nCommand: ")
+    command = command.lower().strip()    #normalize inputs - lowercase and strip removes any extra leading or tailing spaces
+    # if command == '':
+    #     continue
+    # command = command[0]      #no matter how long the input, just take the first letter - not perfect "eat" can head east
+    if command == 'q':
+        quit: True
+        print("so long!")
+    elif command == 'n':    # head north
+        print("heading north")
+        time.sleep(2)
+        if player.current_room.n_to:
+            player.switch_room(player.current_room.n_to)
+        else:
+            print("Can't go north.")
+    elif command == 'e':    # head east
+        print("heading east")
+        time.sleep(2)
+        if player.current_room.e_to:
+            player.switch_room(player.current_room.e_to)
+        else:
+            print("Can't go east.")
+    elif command == 's':    # head south
+        print("heading south")
+        time.sleep(2)
+        if player.current_room.s_to:
+            player.switch_room(player.current_room.s_to)
+        else:
+            print("Can't go south.")
+    elif command == 'w':    # head west
+        print("heading west")
+        time.sleep(2)
+        if player.current_room.w_to:
+            player.switch_room(player.current_room.w_to)
+        else:
+            print("Can't go west.")
+        
+        
+    # elif command == 'i':    # investigate the area
+    #     pass
+    else:
+        print("not a valid command\ntry again")
